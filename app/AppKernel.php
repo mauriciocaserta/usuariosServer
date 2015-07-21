@@ -8,7 +8,7 @@
  */
 
 /*
- * Teste pra dar treta.
+ * Teste pra dar treta
  */
 
 use Symfony\Component\HttpKernel\Kernel;
