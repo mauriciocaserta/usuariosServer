@@ -4,6 +4,9 @@
  * Teste de aplicativo no GIT, exemplo de modificações.
  */
 
+/*
+ * Teste pra dar treta.
+ */
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
