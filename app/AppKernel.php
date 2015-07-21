@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Teste de aplicativo no GIT, exemplo de modificações.
+ */
+
+
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
