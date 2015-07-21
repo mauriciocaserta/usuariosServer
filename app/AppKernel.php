@@ -2,6 +2,9 @@
 
 /**
  * Teste de aplicativo no GIT, exemplo de modificações.
+ * 
+ * 
+ * Novo comentário.
  */
 
 /*
