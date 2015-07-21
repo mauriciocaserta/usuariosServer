@@ -77,4 +77,42 @@ class DefaultController extends Controller {
         return new JsonResponse($rArr);
     }
 
+    public function loginAction() {
+
+        $error = false;
+        $mensagem = "";
+
+        $request = $this->getRequest();
+
+        $nome = $request->request->get('nome');
+        $senha = $request->request->get('senha');
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+
+        if (!empty($nome) && !empty($senha)) {
+            $usuario = array(
+                'nome' => $nome,
+                'senha' => $senha
+            );
+
+            $entity = $em->getRepository('ServerBundle:Usuario')
+                    ->findBy($usuario);
+
+            if (!$entity) {
+                $erro = true;
+            } else {
+                $erro = false;
+            }
+        }
+        
+        $rArr = array(
+            'retorno'=>$entity,
+            'erro'=>$erro,
+            'mensagem'=>$mensagem   
+        );
+        
+        return new JsonResponse($rArr);
+    }
+
 }
