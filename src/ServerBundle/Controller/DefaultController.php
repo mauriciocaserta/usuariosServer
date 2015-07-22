@@ -4,11 +4,20 @@ namespace ServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ServerBundle\Entity\Usuario;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller {
 
-    public function indexAction($name) {
-        return $this->render('ServerBundle:Default:index.html.twig', array('name' => $name));
+    public function indexAction() {
+        return $this->render('ServerBundle:Default:index.html.twig', array('name' => '$name'));
+    }
+
+    public function insereUsuario($usuario, $nome, $senha, $em) {
+        $usuario->setNome($nome);
+        $usuario->setSenha($senha);
+
+        $em->persist($usuario);
+        $em->flush();
     }
 
     public function cadastroAction() {
@@ -25,12 +34,7 @@ class DefaultController extends Controller {
             $em = $this->getDoctrine()->getManager();
 
             try {
-                $usuario->setNome($nome);
-                $usuario->setSenha($senha);
-
-                $em->persist($usuario);
-                $em->flush();
-
+                self::insereUsuario($usuario, $nome, $senha, $em);
                 $retorno = true;
                 $mensagem = "Usuario Inserido!";
             } catch (Exception $e) {
@@ -105,13 +109,13 @@ class DefaultController extends Controller {
                 $erro = false;
             }
         }
-        
+
         $rArr = array(
-            'retorno'=>$entity,
-            'erro'=>$erro,
-            'mensagem'=>$mensagem   
+            'retorno' => $entity,
+            'erro' => $erro,
+            'mensagem' => $mensagem
         );
-        
+
         return new JsonResponse($rArr);
     }
 
