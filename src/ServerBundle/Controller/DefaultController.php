@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DefaultController extends Controller {
 
     public function indexAction() {
-        return $this->render('ServerBundle:Default:index.html.twig', array('name' => '$name'));
+        return $this->render('ServerBundle:Default:index.html.twig',
+                array('name' => '$name'));
     }
 
     public function insereUsuario($usuario, $nome, $senha, $em) {
@@ -36,7 +37,6 @@ class DefaultController extends Controller {
             try {
                 self::insereUsuario($usuario, $nome, $senha, $em);
                 $retorno = true;
-                $mensagem = "Usuario Inserido!";
             } catch (Exception $e) {
                 $mensagem = $e->getMessage();
                 $retorno = false;
@@ -119,4 +119,14 @@ class DefaultController extends Controller {
         return new JsonResponse($rArr);
     }
 
+    public function usuariosAction(){
+        
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entity = $em->getRepository('ServerBundle:Usuarios')
+                ->findAll();
+
+        return new JsonResponse($entity);
+    }
 }
