@@ -12,7 +12,7 @@ class Usuario
     /**
      * @var integer
      */
-    private $id;
+    public $id;
 
 
     /**
@@ -27,7 +27,7 @@ class Usuario
     /**
      * @var string
      */
-    private $nome;
+    public $nome;
 
     /**
      * @var string
