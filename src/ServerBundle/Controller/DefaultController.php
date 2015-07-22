@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DefaultController extends Controller {
 
     public function indexAction() {
-        return $this->render('ServerBundle:Default:index.html.twig',
-                array('name' => '$name'));
+        return $this->render('ServerBundle:Default:index.html.twig', array('name' => '$name'));
     }
 
     public function insereUsuario($usuario, $nome, $senha, $em) {
@@ -27,8 +26,8 @@ class DefaultController extends Controller {
 
         $request = $this->getRequest();
 
-        $nome = $request->get('nome');
-        $senha = $request->get('senha');
+        $nome = $request->request->get('nome');
+        $senha = $request->request->get('senha');
 
         if (!empty($nome) || !empty($senha)) {
             $usuario = new Usuario();
@@ -119,14 +118,15 @@ class DefaultController extends Controller {
         return new JsonResponse($rArr);
     }
 
-    public function usuariosAction(){
-        
+    public function usuariosAction() {
+
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ServerBundle:Usuarios')
+        $entity = $em->getRepository('ServerBundle:Usuario')
                 ->findAll();
 
         return new JsonResponse($entity);
     }
+
 }
