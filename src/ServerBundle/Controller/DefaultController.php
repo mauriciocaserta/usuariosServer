@@ -58,15 +58,17 @@ class DefaultController extends Controller {
         $id = $request->request->get('id');
 
         try {
+            
             $em = $this->getDoctrine()->getManager();
 
-            $entity = $em->getRepository('ServerBundle:Usuario')->find('id');
+            $entity = $em->getRepository('ServerBundle:Usuario')->find($id);
 
             $em->remove($entity);
             $em->flush();
 
-            $mensagem = "Deletado com Sucesso!";
+            $mensagem = "Removido com Sucesso!";
             $retorno = true;
+            
         } catch (Exception $e) {
             $mensagem = $e->getMessage();
             $retorno = false;
