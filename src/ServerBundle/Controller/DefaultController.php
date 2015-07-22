@@ -58,7 +58,7 @@ class DefaultController extends Controller {
         $id = $request->request->get('id');
 
         try {
-            
+
             $em = $this->getDoctrine()->getManager();
 
             $entity = $em->getRepository('ServerBundle:Usuario')->find($id);
@@ -68,7 +68,6 @@ class DefaultController extends Controller {
 
             $mensagem = "Removido com Sucesso!";
             $retorno = true;
-            
         } catch (Exception $e) {
             $mensagem = $e->getMessage();
             $retorno = false;
@@ -84,7 +83,6 @@ class DefaultController extends Controller {
 
     public function loginAction() {
 
-        $error = false;
         $mensagem = "";
 
         $request = $this->getRequest();
@@ -94,15 +92,12 @@ class DefaultController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
 
-
         if (!empty($nome) && !empty($senha)) {
             $usuario = array(
-                'nome' => $nome,
-                'senha' => $senha
+                'nome' => $nome, 'senha' => $senha
             );
 
-            $entity = $em->getRepository('ServerBundle:Usuario')
-                    ->findBy($usuario);
+            $entity = $em->getRepository('ServerBundle:Usuario')->findBy($usuario);
 
             if (!$entity) {
                 $erro = true;
@@ -112,11 +107,8 @@ class DefaultController extends Controller {
         }
 
         $rArr = array(
-            'retorno' => $entity,
-            'erro' => $erro,
-            'mensagem' => $mensagem
+            'retorno' => $entity, 'erro' => $erro, 'mensagem' => $mensagem
         );
-
         return new JsonResponse($rArr);
     }
 
