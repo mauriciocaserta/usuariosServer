@@ -5,6 +5,7 @@ namespace ServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ServerBundle\Entity\Usuario;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use ServerBundle\Entity\Contato;
 
 class DefaultController extends Controller {
 
@@ -121,6 +122,42 @@ class DefaultController extends Controller {
                 ->findAll();
 
         return new JsonResponse($entity);
+    }
+
+    public function contatoAction() {
+        $retorno = false;
+        
+        $request = $this->getRequest();
+        $nome = $request->request->get('nome');
+        $email = $request->request->get('email');
+        $assunto = $request->request->get('assunto');
+        $mensagem = $request->request->get('mensagem');
+
+        if (!empty($nome) && !empty($email) && !empty($assunto) && !empty($mensagem)) {
+            $contato = new Contato();
+            $em = $this->getDoctrine()->getEntityManager();
+
+            try {
+                $contato->setNomeusuario($nome);
+                $contato->setAssuntousuario($assunto);
+                $contato->setMensagemusuario($mensagem);
+                $contato->setEmailusuario($email);
+
+                $em->persist($contato);
+                $em->flush();
+                
+                $retorno = true;
+            } catch (Exception $e) {
+                $e->getMessage();
+                $retorno = false;
+            }
+        }
+        
+        $rArr = array(
+            'retorno'=>$retorno
+        );
+        
+        return new JsonResponse($rArr);
     }
 
 }

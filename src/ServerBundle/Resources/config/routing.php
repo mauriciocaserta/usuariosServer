@@ -25,4 +25,9 @@ $collection->add('server_usuarios', new Route('/usuarios', array(
     '_controller' => 'ServerBundle:Default:usuarios',
 )));
 
+
+$collection->add('server_contato', new Route('/contato', array(
+    '_controller' => 'ServerBundle:Default:contato',
+)));
+
 return $collection;
