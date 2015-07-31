@@ -33,9 +33,9 @@ class DefaultController extends Controller {
         if (!empty($nome) || !empty($senha)) {
             $usuario = new Usuario();
             $em = $this->getDoctrine()->getManager();
-
+                    
             try {
-                self::insereUsuario($usuario, $nome, $senha, $em);
+                self::insereUsuario($usuario, $nome,password_hash($senha, PASSWORD_DEFAULT), $em);
                 $retorno = true;
             } catch (Exception $e) {
                 $mensagem = $e->getMessage();
@@ -85,7 +85,9 @@ class DefaultController extends Controller {
     public function loginAction() {
 
         $mensagem = "";
-
+        $entity = null;
+        $erro = false;
+        
         $request = $this->getRequest();
 
         $nome = $request->request->get('nome');
@@ -95,16 +97,19 @@ class DefaultController extends Controller {
 
         if (!empty($nome) && !empty($senha)) {
             $usuario = array(
-                'nome' => $nome, 'senha' => $senha
+                'nome' => $nome
             );
 
             $entity = $em->getRepository('ServerBundle:Usuario')->findBy($usuario);
-
-            if (!$entity) {
-                $erro = true;
-            } else {
+            
+            $hash = $entity[0]->getSenha();
+            
+            if (password_verify($senha, $hash) && $entity != null) {  
                 $erro = false;
+            } else {
+                $erro = true;
             }
+
         }
 
         $rArr = array(
@@ -126,7 +131,7 @@ class DefaultController extends Controller {
 
     public function contatoAction() {
         $retorno = false;
-        
+
         $request = $this->getRequest();
         $nome = $request->request->get('nome');
         $email = $request->request->get('email');
@@ -145,18 +150,18 @@ class DefaultController extends Controller {
 
                 $em->persist($contato);
                 $em->flush();
-                
+
                 $retorno = true;
             } catch (Exception $e) {
                 $e->getMessage();
                 $retorno = false;
             }
         }
-        
+
         $rArr = array(
-            'retorno'=>$retorno
+            'retorno' => $retorno
         );
-        
+
         return new JsonResponse($rArr);
     }
 
