@@ -126,7 +126,11 @@ class DefaultController extends Controller {
         $entity = $em->getRepository('ServerBundle:Usuario')
                 ->findAll();
 
-        return new JsonResponse($entity);
+        $rArr = array(
+            'usuarios'=>$entity
+        );
+        
+        return new JsonResponse($rArr);
     }
 
     public function contatoAction() {
